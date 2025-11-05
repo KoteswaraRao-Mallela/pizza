@@ -1,84 +1,129 @@
-🍕 Pizza Sales Dashboard – Power BI Project
-📘 Project Overview
+# 🍕 Pizza Sales Analysis Dashboard
 
-The Pizza Sales Dashboard is a data visualization project developed in Power BI to analyze overall pizza sales performance and trends. It provides a comprehensive overview of sales across pizza categories, sizes, and months, helping businesses make data-driven decisions to boost profitability and optimize operations.
+### 📘 Project Overview
 
-📊 Dashboard Highlights
-🔹 Key Insights
+This Power BI project analyzes pizza sales data to understand revenue trends, customer preferences, and product performance.
+The interactive dashboard visualizes sales by pizza type, category, and size, helping stakeholders make data-driven business decisions.
 
-Total Sales: ₹8.17M
+---
 
-Top-Selling Pizza: The Barbecue Chicken Pizza
+### 🎯 Objectives
 
-Best-Selling Category: Classic (30% of total sales)
+* Evaluate **total revenue**, **quantity sold**, and **average order value**.
+* Identify **best-selling pizza categories** and **top-performing sizes**.
+* Track **monthly and daily sales trends** to uncover seasonal patterns.
+* Provide insights to optimize product mix and marketing strategies.
 
-Most Popular Size: Large (L)
+---
 
-Highest Sales Month: July
+### 🧰 Tools & Technologies
 
-📈 Visuals Used
-Visualization	Purpose
-Table	Displays total revenue by pizza name
-Pie Chart	Shows percentage sales by pizza category
-Bar Chart	Illustrates monthly sales quantity trends
-Line Chart	Compares sales performance by pizza size
-⚙️ Tools & Technologies Used
+* **Power BI** – Data modeling, DAX calculations, and dashboard design
+* **Excel** – Data cleaning and preprocessing
+* **Power Query** – ETL for merging and shaping multiple tables
+* **DAX (Data Analysis Expressions)** – Custom KPIs and time intelligence
 
-Power BI Desktop – Dashboard creation & data visualization
+---
 
-Excel / CSV – Data cleaning and preprocessing
+### 🧩 Dataset Description
 
-Power Query – Data transformation
+* **Source:** Kaggle (Pizza Sales Dataset)
+* **Tables:** `Orders`, `Order_Details`, `Pizzas`, `Pizza_Types`
+* **Rows:** ~48,000 order records
+* **Fields:** `pizza_id`, `category`, `size`, `price`, `quantity`, `order_date`, `total_price`
+* **Data Cleaning Steps:**
 
-DAX (Data Analysis Expressions) – Custom calculated measures
+  * Removed duplicates and invalid timestamps
+  * Standardized category names and date formats
+  * Created relationships between `Orders` and `Order_Details` tables
 
-Dataset: Pizza Sales Data
+---
 
-💡 Insights from the Dashboard
+### ⚙️ Data Modeling & DAX Measures
 
-Classic pizzas dominate sales and customer demand.
+```DAX
+-- Total Revenue
+Total Revenue = SUM('Order_Details'[total_price])
 
-Large-sized pizzas contribute the majority of total revenue.
+-- Total Quantity Sold
+Total Quantity = SUM('Order_Details'[quantity])
 
-Monthly sales remain stable with noticeable peaks during certain months.
+-- Average Order Value (AOV)
+Average Order Value = DIVIDE([Total Revenue], DISTINCTCOUNT('Orders'[order_id]))
 
-A few pizza types account for a significant portion of total revenue.
+-- Monthly Sales
+Monthly Sales = CALCULATE([Total Revenue], DATESMTD('Orders'[order_date]))
 
-🧠 Skills Demonstrated
+-- Year-to-Date (YTD) Sales
+YTD Sales = TOTALYTD([Total Revenue], 'Orders'[order_date])
 
-Data Cleaning and Preparation
+-- Top Category by Revenue
+Top Category = 
+VAR CatRevenue = 
+    SUMMARIZE('Pizza_Types', 'Pizza_Types'[category], "Revenue", [Total Revenue])
+RETURN
+TOPN(1, CatRevenue, [Revenue], DESC)
+```
 
-Power BI Dashboard Design
+---
 
-Data Modeling and DAX
+### 📊 Key Insights
 
-Analytical Thinking
+* **Classic and Supreme categories** generated over **60% of total revenue**.
+* **Large-size pizzas** were the top sellers, contributing ~45% of total quantity sold.
+* Peak sales occurred during **weekends**, showing strong weekend demand.
+* **Total Revenue:** ₹817,860 across the full period analyzed.
+* **Average Order Value (AOV):** ₹38.2 per order.
+* **Highest sales month:** **July**, showing ~15% higher revenue compared to monthly average.
 
-Business Performance Reporting
+---
 
-🚀 How to Use
+### 🖼️ Dashboard Preview
 
-Clone or download this repository.
+(Replace with your actual screenshot)
+`![Pizza Dashboard Preview](images/pizza_dashboard.png)`
 
-Open the .pbix file in Power BI Desktop.
+---
 
-Use interactive filters to explore sales data by category, size, and month.
+### 🧠 What I Learned
 
-📂 Repository Structure
-Pizza_Sales_Dashboard/
+* Advanced DAX functions for trend and time-based analysis (YTD, MTD).
+* Building relationships between multiple tables in a relational model.
+* Designing intuitive visuals with card KPIs, bar charts, and donut charts.
+* Translating raw transaction data into business recommendations.
+
+---
+
+### 📈 Impact
+
+* Enabled the business to identify **top-selling categories** and **size-based profit margins**.
+* Helped uncover **seasonal and daily sales trends** for better inventory planning.
+* Improved data storytelling and visual analytics for management insights.
+
+---
+
+### 🧩 Repository Structure
+
+```
+Pizza_Sales_Analysis/
 │
-├── Dash Board 01.png             # Dashboard Screenshot
-├── pizza_sales_dataset.csv       # Source Dataset
-├── Pizza_Sales.pbix              # Power BI Project File
-└── README.md                     # Project Documentation
+├── dataset/
+│   └── pizza_sales_data.xlsx
+├── dashboard/
+│   └── Pizza_Sales_Dashboard.pbix
+├── images/
+│   └── pizza_dashboard.png
+└── README.md
+```
 
-📈 Business Impact
+---
 
-✅ Identified best-performing pizza categories and sizes.
-✅ Improved data visibility for management and marketing teams.
-✅ Enabled decision-making for promotions and product optimization.
+### 📬 Contact
 
-👩‍💻 Author
+**Koteswara Rao Mallela**
+📧 [kotimallela0415@gmail.com](mailto:kotimallela0415@gmail.com)
+🔗 [LinkedIn](https://www.linkedin.com/in/koti2018) | [GitHub Profile](https://github.com/KoteswaraRao-Mallela)
 
-Prathyusha Uppu
-📧 koteswararao.mallela9@gmail.com
+---
+
+**License:** Educational and portfolio use only.
