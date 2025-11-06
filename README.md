@@ -90,8 +90,8 @@ DIVIDE(
 
 
 ###  🖼️ Dashboard Preview
-C:\Users\Koteswarao\OneDrive\Pictures\Screenshots\Pizza Sales dashboard pic
-
+[C:\Users\Koteswarao\OneDrive\Pictures\Screenshots\Pizza Sales dashboard pic
+](https://github.com/KoteswaraRao-Mallela/pizza/blob/main/Pizza%20sales%20dasboard%20pic.png)
 ---
 
 
