@@ -1,129 +1,139 @@
 # 🍕 Pizza Sales Analysis Dashboard
 
 ### 📘 Project Overview
-
-This Power BI project analyzes pizza sales data to understand revenue trends, customer preferences, and product performance.
-The interactive dashboard visualizes sales by pizza type, category, and size, helping stakeholders make data-driven business decisions.
+This Power BI project analyzes pizza sales to understand revenue trends, product performance, and customer purchase behavior.  
+The dashboard visualizes sales by category, size, and pizza type, helping stakeholders make data-driven decisions.
 
 ---
 
 ### 🎯 Objectives
-
-* Evaluate **total revenue**, **quantity sold**, and **average order value**.
-* Identify **best-selling pizza categories** and **top-performing sizes**.
-* Track **monthly and daily sales trends** to uncover seasonal patterns.
-* Provide insights to optimize product mix and marketing strategies.
+- Track **total revenue**, **total quantity sold**, and **average order value**
+- Identify **top-selling pizzas**, **categories**, and **size performance**
+- Understand **monthly revenue trends** and seasonal patterns
+- Provide insights to improve product mix and marketing strategy
 
 ---
 
 ### 🧰 Tools & Technologies
-
-* **Power BI** – Data modeling, DAX calculations, and dashboard design
-* **Excel** – Data cleaning and preprocessing
-* **Power Query** – ETL for merging and shaping multiple tables
-* **DAX (Data Analysis Expressions)** – Custom KPIs and time intelligence
+- **Power BI** – Data modeling, DAX, reports
+- **Power Query** – Data transformation (ETL)
+- **Excel / CSV** – Raw data
 
 ---
 
 ### 🧩 Dataset Description
-
-* **Source:** Kaggle (Pizza Sales Dataset)
-* **Tables:** `Orders`, `Order_Details`, `Pizzas`, `Pizza_Types`
-* **Rows:** ~48,000 order records
-* **Fields:** `pizza_id`, `category`, `size`, `price`, `quantity`, `order_date`, `total_price`
-* **Data Cleaning Steps:**
-
-  * Removed duplicates and invalid timestamps
-  * Standardized category names and date formats
-  * Created relationships between `Orders` and `Order_Details` tables
+- **Source:** Store sales dataset (CSV)
+- **Records:** ~21,000 rows
 
 ---
+
+#### Key Fields
+| Field | Description |
+|-------|-------------|
+| pizza_id | Pizza identifier |
+| pizza_name | Product name |
+| pizza_category | Category (Classic, Supreme, etc.) |
+| pizza_size | Small / Medium / Large |
+| quantity | Units sold |
+| unit_price | Price per item |
+| order_date | Date of purchase |
+| order_time | Time of purchase |
+| total_amount | unit_price × quantity |
+
+---
+
+#### Data Cleaning
+✅ Date & time formatting  
+✅ Created Month & Month Name  
+✅ Created Order Period (Morning / Afternoon / Evening / Night)  
+✅ Computed Total Amount  
+✅ Removed duplicates & nulls  
+
+---
+
 
 ### ⚙️ Data Modeling & DAX Measures
 
 ```DAX
 -- Total Revenue
-Total Revenue = SUM('Order_Details'[total_price])
+Total Revenue = SUM('Pizza'[total_amount])
 
 -- Total Quantity Sold
-Total Quantity = SUM('Order_Details'[quantity])
+Total Quantity = SUM('Pizza'[quantity])
 
--- Average Order Value (AOV)
-Average Order Value = DIVIDE([Total Revenue], DISTINCTCOUNT('Orders'[order_id]))
-
--- Monthly Sales
-Monthly Sales = CALCULATE([Total Revenue], DATESMTD('Orders'[order_date]))
-
--- Year-to-Date (YTD) Sales
-YTD Sales = TOTALYTD([Total Revenue], 'Orders'[order_date])
-
--- Top Category by Revenue
-Top Category = 
-VAR CatRevenue = 
-    SUMMARIZE('Pizza_Types', 'Pizza_Types'[category], "Revenue", [Total Revenue])
-RETURN
-TOPN(1, CatRevenue, [Revenue], DESC)
-```
+-- Average Order Value
+Average Order Value =
+DIVIDE(
+    [Total Revenue],
+    DISTINCTCOUNT('Pizza'[order_id])
+)
 
 ---
 
-### 📊 Key Insights
 
-* **Classic and Supreme categories** generated over **60% of total revenue**.
-* **Large-size pizzas** were the top sellers, contributing ~45% of total quantity sold.
-* Peak sales occurred during **weekends**, showing strong weekend demand.
-* **Total Revenue:** ₹817,860 across the full period analyzed.
-* **Average Order Value (AOV):** ₹38.2 per order.
-* **Highest sales month:** **July**, showing ~15% higher revenue compared to monthly average.
+### Key Insights
+- Total Revenue: ₹3,53,504+  
+- Total Quantity Sold: 21,581+  
+- Average Order Value: ₹17  
 
----
-
-### 🖼️ Dashboard Preview
-
-(Replace with your actual screenshot)
-`![Pizza Dashboard Preview](images/pizza_dashboard.png)`
-
----
-
-### 🧠 What I Learned
-
-* Advanced DAX functions for trend and time-based analysis (YTD, MTD).
-* Building relationships between multiple tables in a relational model.
-* Designing intuitive visuals with card KPIs, bar charts, and donut charts.
-* Translating raw transaction data into business recommendations.
+- Large pizzas contribute ~45% of total revenue, making them the most preferred and high-value product  
+- Medium pizzas contribute ~31%, while Small account for ~24%  
+- Chicken category generates the highest revenue (~₹110K), followed by Classic (~₹97K), Supreme, and Veggie  
+- Barbecue Chicken Pizza is the top performer (~₹41K), followed by California Chicken Pizza and Classic Deluxe Pizza  
+- July is the highest-revenue month; October is the lowest, suggesting promotion opportunities  
+- Sales peak during Evening & Afternoon, ideal for combos and promo campaigns  
+- Revenue is concentrated among a few top pizzas → top 5 contribute a major portion → prioritize inventory  
+- Veggie pizzas contribute less → opportunity for new recipes, discount offers, or marketing  
+- Customers prefer premium & large products → higher revenue per order
 
 ---
 
-### 📈 Impact
 
-* Enabled the business to identify **top-selling categories** and **size-based profit margins**.
-* Helped uncover **seasonal and daily sales trends** for better inventory planning.
-* Improved data storytelling and visual analytics for management insights.
+###  🖼️ Dashboard Preview
+C:\Users\Koteswarao\OneDrive\Pictures\Screenshots\Pizza Sales dashboard pic
 
 ---
 
-### 🧩 Repository Structure
 
-```
+###  🧠 What I Learned
+
+- Creating DAX measures for KPIs
+- Developing star-schema relationships
+- Time-based analysis & modeling
+- Designing business-ready dashboards
+- Converting raw data → usable insights
+
+---
+
+
+### 📈 Business Impact
+
+- Identified top products & categories driving revenue
+- Seasonal performance uncovered → aids inventory planning
+- Prioritized profitable SKUs → strengthens menu strategy
+- Recommended marketing focus based on demand timing
+
+---
+
+
+###  🧩 Repository Structure
 Pizza_Sales_Analysis/
 │
-├── dataset/
-│   └── pizza_sales_data.xlsx
+├── data/
+│   └── pizza_sales.csv
 ├── dashboard/
-│   └── Pizza_Sales_Dashboard.pbix
+│   └── pizza_sales.pbix
 ├── images/
 │   └── pizza_dashboard.png
 └── README.md
-```
 
 ---
 
-### 📬 Contact
 
-**Koteswara Rao Mallela**
-📧 [kotimallela0415@gmail.com](mailto:kotimallela0415@gmail.com)
-🔗 [LinkedIn](https://www.linkedin.com/in/koti2018) | [GitHub Profile](https://github.com/KoteswaraRao-Mallela)
+###  📬 Contact
+Koteswara Rao Mallela
+📧 kotimallela0415@gmail.com
 
----
+🔗 LinkedIn: https://www.linkedin.com/in/koti2018
 
-**License:** Educational and portfolio use only.
+🔗 GitHub: https://github.com/KoteswaraRao-Mallela
